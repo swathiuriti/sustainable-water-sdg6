@@ -1,0 +1,101 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Water Hygiene Assessment</h2>
+
+<form
+method="POST"
+action="/submit_hygiene">
+
+<div class="card p-4">
+
+<label>
+Do you clean water tanks every 3–6 months?
+</label>
+
+<select
+name="tank"
+class="form-control">
+
+<option>Yes</option>
+<option>No</option>
+
+</select>
+
+<br>
+
+<label>
+Do you use a water filter?
+</label>
+
+<select
+name="filter"
+class="form-control">
+
+<option>Yes</option>
+<option>No</option>
+
+</select>
+
+<br>
+
+<label>
+Do you keep drinking water covered?
+</label>
+
+<select
+name="covered"
+class="form-control">
+
+<option>Yes</option>
+<option>No</option>
+
+</select>
+
+<br>
+
+<label>
+Do you clean storage vessels weekly?
+</label>
+
+<select
+name="vessels"
+class="form-control">
+
+<option>Yes</option>
+<option>No</option>
+
+</select>
+
+<br>
+
+<label>
+Do you boil water when quality is uncertain?
+</label>
+
+<select
+name="boiling"
+class="form-control">
+
+<option>Yes</option>
+<option>No</option>
+
+</select>
+
+<br>
+
+<button
+class="btn btn-primary">
+
+Submit Assessment
+
+</button>
+
+</div>
+
+</form>
+
+{% endblock %}
+```

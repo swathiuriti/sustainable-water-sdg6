@@ -1,0 +1,448 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="mb-4">
+🌸 Menstrual Hygiene Awareness Center
+</h2>
+
+<div class="card shadow p-4 mb-4">
+
+<h3>Importance of Menstrual Hygiene</h3>
+
+<p>
+Maintaining proper menstrual hygiene helps prevent infections,
+improves comfort, promotes dignity and supports overall health.
+Menstruation is a natural biological process and should be managed safely.
+</p>
+
+</div>
+
+<div class="card shadow p-4 mb-4">
+
+<h3>Today's Menstrual Hygiene Tip</h3>
+
+<p id="dailyTip"></p>
+
+</div>
+
+<div class="card shadow p-4 mb-4">
+
+<h3>Self Assessment</h3>
+
+<form id="assessmentForm">
+
+<label>Do you change sanitary products every 4–6 hours?</label>
+<select class="form-control" id="q1">
+<option>Yes</option>
+<option>No</option>
+</select>
+
+<br>
+
+<label>Do you wash hands before changing?</label>
+<select class="form-control" id="q2">
+<option>Yes</option>
+<option>No</option>
+</select>
+
+<br>
+
+<label>Do you wash hands after changing?</label>
+<select class="form-control" id="q3">
+<option>Yes</option>
+<option>No</option>
+</select>
+
+<br>
+
+<label>Do you dispose sanitary products safely?</label>
+<select class="form-control" id="q4">
+<option>Yes</option>
+<option>No</option>
+</select>
+
+<br>
+
+<label>Do you maintain personal cleanliness during periods?</label>
+<select class="form-control" id="q5">
+<option>Yes</option>
+<option>No</option>
+</select>
+
+<br>
+
+<button
+type="button"
+class="btn btn-primary"
+onclick="checkAssessment()">
+
+Check Score
+
+</button>
+
+</form>
+
+<div id="assessmentResult" class="mt-4"></div>
+
+</div>
+
+<div class="card shadow p-4 mb-4">
+
+<h3>Myth vs Fact</h3>
+
+<p id="mythQuestion"></p>
+
+<button
+class="btn btn-danger me-2"
+onclick="checkMyth('Myth')">
+
+Myth
+
+</button>
+
+<button
+class="btn btn-success"
+onclick="checkMyth('Fact')">
+
+Fact
+
+</button>
+
+<div id="mythResult" class="mt-3"></div>
+
+</div>
+
+<div class="card shadow p-4 mb-4">
+
+<h3>Period Tracker</h3>
+
+<label>Last Period Date</label>
+
+<input
+type="date"
+id="lastPeriod"
+class="form-control">
+
+<br>
+
+<label>Cycle Length (Days)</label>
+
+<input
+type="number"
+id="cycleLength"
+class="form-control"
+value="28">
+
+<br>
+
+<button
+class="btn btn-primary"
+onclick="calculatePeriod()">
+
+Calculate Next Period
+
+</button>
+
+<div id="periodResult" class="mt-3"></div>
+
+</div>
+
+<div class="card shadow p-4 mb-4">
+
+<h3>Menstrual Product Comparison</h3>
+
+<table class="table table-bordered">
+
+<tr>
+<th>Product</th>
+<th>Usage Time</th>
+<th>Reusable</th>
+<th>Eco Friendly</th>
+</tr>
+
+<tr>
+<td>Sanitary Pad</td>
+<td>4–6 Hours</td>
+<td>No</td>
+<td>Medium</td>
+</tr>
+
+<tr>
+<td>Tampon</td>
+<td>4–8 Hours</td>
+<td>No</td>
+<td>Medium</td>
+</tr>
+
+<tr>
+<td>Menstrual Cup</td>
+<td>8–12 Hours</td>
+<td>Yes</td>
+<td>High</td>
+</tr>
+
+<tr>
+<td>Reusable Cloth Pad</td>
+<td>6–8 Hours</td>
+<td>Yes</td>
+<td>High</td>
+</tr>
+
+</table>
+
+</div>
+
+<div class="card shadow p-4 mb-4">
+
+<h3>Emergency Kit Checklist</h3>
+
+<input type="checkbox"> Sanitary Pads<br>
+<input type="checkbox"> Extra Underwear<br>
+<input type="checkbox"> Soap<br>
+<input type="checkbox"> Hand Sanitizer<br>
+<input type="checkbox"> Disposal Bags<br>
+
+</div>
+
+<div class="card shadow p-4 mb-4">
+
+<h3>Warning Signs</h3>
+
+<ul>
+
+<li>Excessive bleeding</li>
+<li>Severe pain</li>
+<li>Irregular cycles frequently</li>
+<li>Unusual discharge</li>
+
+</ul>
+
+<p>
+Consult a healthcare professional if these symptoms persist.
+</p>
+
+</div>
+
+<div class="card shadow p-4 mb-4">
+
+<h3>Sustainable Menstruation</h3>
+
+<ul>
+
+<li>Menstrual Cups</li>
+<li>Reusable Cloth Pads</li>
+<li>Biodegradable Pads</li>
+
+</ul>
+
+<p>
+These options can reduce waste and support environmental sustainability.
+</p>
+
+</div>
+
+<script>
+
+const tips = [
+
+"Change sanitary products every 4-6 hours.",
+
+"Wash hands before and after changing.",
+
+"Stay hydrated during menstruation.",
+
+"Dispose sanitary products safely.",
+
+"Maintain personal cleanliness."
+
+];
+
+document.getElementById(
+"dailyTip"
+).innerHTML =
+
+tips[
+Math.floor(
+Math.random()*tips.length
+)
+];
+
+function checkAssessment(){
+
+let score = 0;
+
+let improvements = [];
+
+if(document.getElementById("q1").value==="Yes")
+score+=2;
+else
+improvements.push(
+"Change sanitary products every 4-6 hours."
+);
+
+if(document.getElementById("q2").value==="Yes")
+score+=2;
+else
+improvements.push(
+"Wash hands before changing."
+);
+
+if(document.getElementById("q3").value==="Yes")
+score+=2;
+else
+improvements.push(
+"Wash hands after changing."
+);
+
+if(document.getElementById("q4").value==="Yes")
+score+=2;
+else
+improvements.push(
+"Dispose sanitary products safely."
+);
+
+if(document.getElementById("q5").value==="Yes")
+score+=2;
+else
+improvements.push(
+"Maintain personal hygiene."
+);
+
+let html =
+
+"<h4>Score: "+score+"/10</h4>";
+
+if(improvements.length){
+
+html += "<h5>Areas to Improve</h5><ul>";
+
+improvements.forEach(item=>{
+
+html += "<li>"+item+"</li>";
+
+});
+
+html += "</ul>";
+
+}
+else{
+
+html +=
+"<div class='alert alert-success'>Excellent hygiene practices.</div>";
+
+}
+
+
+fetch(
+"/save_menstrual",
+{
+method:"POST",
+headers:{
+"Content-Type":
+"application/x-www-form-urlencoded"
+},
+body:"score="+score
+}
+); 
+
+document.getElementById(
+"assessmentResult"
+).innerHTML = html;
+
+}
+
+const myths = [
+
+{
+q:"Women should avoid bathing during periods.",
+a:"Myth",
+exp:"Bathing helps maintain cleanliness."
+},
+
+{
+q:"Menstruation is a natural biological process.",
+a:"Fact",
+exp:"It is completely natural."
+},
+
+{
+q:"Periods are unhygienic.",
+a:"Myth",
+exp:"Menstruation is natural and manageable through hygiene."
+}
+
+];
+
+let currentMyth =
+myths[
+Math.floor(
+Math.random()*myths.length
+)
+];
+
+document.getElementById(
+"mythQuestion"
+).innerHTML =
+currentMyth.q;
+
+function checkMyth(answer){
+
+if(answer===currentMyth.a){
+
+document.getElementById(
+"mythResult"
+).innerHTML =
+
+"✅ Correct<br>"+currentMyth.exp;
+
+}
+else{
+
+document.getElementById(
+"mythResult"
+).innerHTML =
+
+"❌ Incorrect<br>"+currentMyth.exp;
+
+}
+
+}
+
+function calculatePeriod(){
+
+let lastDate =
+
+new Date(
+document.getElementById(
+"lastPeriod"
+).value
+);
+
+let cycle =
+
+parseInt(
+document.getElementById(
+"cycleLength"
+).value
+);
+
+if(isNaN(cycle))
+return;
+
+lastDate.setDate(
+lastDate.getDate()+cycle
+);
+
+document.getElementById(
+"periodResult"
+).innerHTML =
+
+"<h5>Expected Next Period:</h5>"+
+lastDate.toDateString();
+
+}
+
+</script>
+
+{% endblock %}

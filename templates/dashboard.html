@@ -1,0 +1,419 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="mb-4 text-center">
+📊 SDG 6 Community Analytics Dashboard
+</h2>
+
+<!-- Score Cards -->
+
+<div class="row">
+
+<div class="col-md-4 mb-3">
+<div class="card shadow text-center p-3">
+<h5>💧 Water Hygiene</h5>
+<h2>{{ hygiene }}/10</h2>
+</div>
+</div>
+
+<div class="col-md-4 mb-3">
+<div class="card shadow text-center p-3">
+<h5>🧼 Sanitation</h5>
+<h2>{{ sanitation }}/10</h2>
+</div>
+</div>
+
+<div class="col-md-4 mb-3">
+<div class="card shadow text-center p-3">
+<h5>🚰 Water Quality</h5>
+<h2>{{ quality }}/10</h2>
+</div>
+</div>
+
+</div>
+
+<div class="row">
+
+<div class="col-md-4 mb-3">
+<div class="card shadow text-center p-3">
+<h5>🧠 Quiz</h5>
+<h2>{{ quiz }}/10</h2>
+</div>
+</div>
+
+<div class="col-md-4 mb-3">
+<div class="card shadow text-center p-3">
+<h5>🌸 Menstrual Hygiene</h5>
+<h2>{{ menstrual }}/10</h2>
+</div>
+</div>
+
+<div class="col-md-4 mb-3">
+<div class="card shadow text-center p-3">
+<h5>♻ Waste Awareness</h5>
+<h2>{{ waste }}</h2>
+</div>
+</div>
+
+</div>
+
+<!-- Progress -->
+
+<div class="card shadow p-4 mt-3">
+
+<h4>Overall SDG 6 Awareness</h4>
+
+<div class="progress mt-3" style="height:30px;">
+
+<div
+id="progressBar"
+class="progress-bar progress-bar-striped progress-bar-animated bg-success"
+role="progressbar">
+
+0%
+
+</div>
+
+</div>
+
+</div>
+
+<!-- Chart -->
+
+<div class="card shadow p-4 mt-4">
+
+<h4 class="text-center">
+Awareness Performance
+</h4>
+
+<div
+class="text-center"
+style="
+max-width:180px;
+margin:auto;
+">
+
+<canvas id="scoreChart"></canvas>
+
+</div>
+
+</div>
+
+<!-- Achievement -->
+
+<div class="card shadow p-4 mt-4">
+
+<h4>
+🏆 Achievement
+</h4>
+
+<div id="achievementBox"></div>
+
+</div>
+
+<!-- Recommendations -->
+
+<div class="card shadow p-4 mt-4">
+
+<h4>
+📌 Personalized Recommendations
+</h4>
+
+<div id="recommendationBox"></div>
+
+</div>
+
+<!-- Community Impact -->
+
+<div class="card shadow p-4 mt-4">
+
+<h4>
+🌍 Community Impact
+</h4>
+
+<ul>
+
+<li>
+Improved water hygiene awareness among households.
+</li>
+
+<li>
+Promoted safe drinking water storage practices.
+</li>
+
+<li>
+Improved sanitation and handwashing awareness.
+</li>
+
+<li>
+Encouraged rainwater harvesting and water conservation.
+</li>
+
+<li>
+Promoted menstrual hygiene awareness.
+</li>
+
+<li>
+Improved waste segregation knowledge.
+</li>
+
+<li>
+Enhanced SDG 6 community participation.
+</li>
+
+</ul>
+
+</div>
+
+<!-- SDG Progress -->
+
+<div class="card shadow p-4 mt-4">
+
+<h4>
+🎯 SDG 6 Goal Progress
+</h4>
+
+<p>
+
+This project supports Sustainable Development Goal 6:
+Clean Water and Sanitation by promoting water safety,
+sanitation awareness, waste segregation,
+rainwater harvesting and hygiene education.
+
+</p>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+const hygiene =
+{{ hygiene|default(0) }};
+
+const sanitation =
+{{ sanitation|default(0) }};
+
+const quality =
+{{ quality|default(0) }};
+
+const quiz =
+{{ quiz|default(0) }};
+
+const menstrual =
+{{ menstrual|default(0) }};
+
+const waste =
+{{ waste|default(0) }};
+
+
+/* Overall Score */
+
+const overall = Math.round(
+
+(
+hygiene +
+sanitation +
+quality +
+quiz +
+menstrual
+)
+
+/
+
+50
+
+*100
+
+);
+
+
+/* Progress Bar */
+
+document.getElementById(
+"progressBar"
+).style.width =
+overall + "%";
+
+document.getElementById(
+"progressBar"
+).innerHTML =
+overall + "%";
+
+
+/* Achievement */
+
+let achievement =
+"🌱 Beginner";
+
+if(overall >= 80){
+
+achievement =
+"🏆 Water Warrior";
+
+}
+else if(overall >= 60){
+
+achievement =
+"🥇 Eco Guardian";
+
+}
+else if(overall >= 40){
+
+achievement =
+"💧 Rain Hero";
+
+}
+
+document.getElementById(
+"achievementBox"
+).innerHTML =
+
+`
+<div class="alert alert-success">
+
+<b>${achievement}</b>
+
+</div>
+`;
+
+
+/* Recommendations */
+
+let recommendations = [];
+
+if(hygiene < 8){
+
+recommendations.push(
+"💧 Improve water hygiene by cleaning tanks regularly, using filters and storing water safely."
+);
+
+}
+
+if(sanitation < 8){
+
+recommendations.push(
+"🧼 Improve sanitation by washing hands with soap and avoiding stagnant water."
+);
+
+}
+
+if(quality < 8){
+
+recommendations.push(
+"🚰 Improve water quality through filtration, boiling and proper storage."
+);
+
+}
+
+if(quiz < 8){
+
+recommendations.push(
+"🧠 Retake the SDG 6 quiz and review awareness materials."
+);
+
+}
+
+if(menstrual < 8){
+
+recommendations.push(
+"🌸 Maintain proper menstrual hygiene and change sanitary products regularly."
+);
+
+}
+
+if(waste < 5){
+
+recommendations.push(
+"♻ Improve waste segregation knowledge and identify biodegradable and non-biodegradable waste correctly."
+);
+
+}
+
+if(recommendations.length === 0){
+
+recommendations.push(
+"🏆 Excellent performance across all SDG 6 modules."
+);
+
+}
+
+let recommendationHTML =
+"<ul>";
+
+recommendations.forEach(item=>{
+
+recommendationHTML +=
+"<li class='mb-2'>"
++
+item
++
+"</li>";
+
+});
+
+recommendationHTML +=
+"</ul>";
+
+document.getElementById(
+"recommendationBox"
+).innerHTML =
+recommendationHTML;
+
+
+/* Doughnut Chart */
+
+new Chart(
+
+document.getElementById(
+"scoreChart"
+),
+
+{
+
+type:"doughnut",
+
+data:{
+
+labels:[
+"Awareness",
+"Remaining"
+],
+
+datasets:[{
+
+data:[
+overall,
+100-overall
+],
+
+borderWidth:0
+
+}]
+
+},
+
+options:{
+
+responsive:true,
+
+plugins:{
+
+legend:{
+position:"bottom"
+}
+
+},
+
+cutout:"82%"
+
+}
+
+}
+
+);
+
+</script>
+
+{% endblock %}

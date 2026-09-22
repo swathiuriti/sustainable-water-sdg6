@@ -1,0 +1,26 @@
+.hero{
+
+background:#007bff;
+
+color:white;
+
+padding:50px;
+
+text-align:center;
+
+border-radius:10px;
+
+margin-bottom:30px;
+
+}
+
+.card{
+
+box-shadow:0 0 10px rgba(0,0,0,0.2);
+
+}
+
+#scoreChart{
+margin:auto;
+display:block;
+}

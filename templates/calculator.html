@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Rainwater Harvesting Calculator</h2>
+
+<input id="length"
+class="form-control"
+placeholder="Roof Length">
+
+<br>
+
+<input id="width"
+class="form-control"
+placeholder="Roof Width">
+
+<br>
+
+<input id="rainfall"
+class="form-control"
+placeholder="Annual Rainfall">
+
+<br>
+
+<button
+onclick="calculate()"
+class="btn btn-primary">
+
+Calculate
+
+</button>
+
+<h3 id="result"></h3>
+
+<script>
+
+function calculate(){
+
+let l =
+parseFloat(
+document.getElementById("length").value
+);
+
+let w =
+parseFloat(
+document.getElementById("width").value
+);
+
+let r =
+parseFloat(
+document.getElementById("rainfall").value
+);
+
+let water =
+l*w*r*0.8;
+
+document.getElementById("result")
+.innerHTML =
+"Estimated Collection = "
++ water.toFixed(2)
++ " Litres";
+
+}
+
+</script>
+
+{% endblock %}

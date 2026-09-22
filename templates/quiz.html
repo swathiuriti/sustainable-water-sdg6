@@ -1,0 +1,90 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="mb-4">
+SDG 6 Quiz Challenge
+</h2>
+
+<div class="card shadow p-4">
+
+<form id="quizForm">
+
+<div id="quizContainer"></div>
+
+<div class="text-center mt-4">
+
+<button
+type="button"
+class="btn btn-success btn-lg"
+onclick="submitQuiz()">
+
+Submit Quiz
+
+</button>
+
+<button
+type="button"
+class="btn btn-secondary btn-lg ms-2"
+onclick="resetQuiz()">
+
+New Quiz
+
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+<div
+id="resultSection"
+style="display:none;"
+class="mt-4">
+
+<div class="card shadow p-4">
+
+<h3 id="scoreText"></h3>
+
+<h4 id="badgeText"></h4>
+
+<p id="messageText"></p>
+
+<div class="text-center">
+
+<canvas
+id="scoreChart"
+width="220"
+height="220">
+</canvas>
+
+</div>
+
+</div>
+
+<div
+class="card shadow p-4 mt-3">
+
+<h3>
+Questions Answered Incorrectly
+</h3>
+
+<div id="reviewSection">
+
+</div>
+
+</div>
+
+</div>
+
+<script src="{{ url_for('static',
+filename='js/question_bank.js') }}"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="{{ url_for('static',
+filename='js/quiz.js') }}"></script>
+
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Water Saving Calculator</h2>
+
+<input
+id="taps"
+class="form-control"
+placeholder="Number of Leaking Taps">
+
+<br>
+
+<button
+onclick="calculate()"
+class="btn btn-primary">
+
+Calculate
+
+</button>
+
+<h3 id="result"></h3>
+
+<script>
+
+function calculate(){
+
+let taps =
+parseInt(
+document.getElementById("taps").value
+);
+
+let loss =
+taps * 900;
+
+document.getElementById("result")
+.innerHTML =
+"Estimated Monthly Water Loss = "
++ loss + " Litres";
+
+}
+
+</script>
+
+{% endblock %}

@@ -1,0 +1,268 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Hero Section -->
+
+<div class="p-5 mb-4 bg-primary text-white rounded">
+
+
+<div class="container-fluid py-3">
+
+    <h1 class="display-4">
+        Sustainable Water Development
+        For Future Generations
+    </h1>
+
+    <p class="lead">
+        SDG 6: Clean Water and Sanitation
+    </p>
+
+    <p>
+        An interactive community platform promoting
+        water conservation, sanitation awareness,
+        rainwater harvesting, hygiene assessment,
+        waste management and sustainable development.
+    </p>
+
+</div>
+
+
+</div>
+
+<!-- Quick Statistics -->
+
+<div class="row">
+
+
+<div class="col-md-3 mb-3">
+
+    <div class="card shadow p-3 text-center">
+
+        <h5>Water Hygiene</h5>
+
+        <h2>✔</h2>
+
+        <p>Assessment Module</p>
+
+    </div>
+
+</div>
+
+<div class="col-md-3 mb-3">
+
+    <div class="card shadow p-3 text-center">
+
+        <h5>Sanitation</h5>
+
+        <h2>✔</h2>
+
+        <p>Awareness Module</p>
+
+    </div>
+
+</div>
+
+<div class="col-md-3 mb-3">
+
+    <div class="card shadow p-3 text-center">
+
+        <h5>Quiz Arena</h5>
+
+        <h2>✔</h2>
+
+        <p>Interactive Learning</p>
+
+    </div>
+
+</div>
+
+<div class="col-md-3 mb-3">
+
+    <div class="card shadow p-3 text-center">
+
+        <h5>Community Action</h5>
+
+        <h2>✔</h2>
+
+        <p>Issue Reporting</p>
+
+    </div>
+
+</div>
+
+
+</div>
+
+<!-- Daily Tip -->
+
+<div class="card shadow p-4 mt-4">
+
+
+<h3>Daily Water Tip</h3>
+
+<p id="dailyTip"></p>
+
+
+</div>
+
+<!-- Project Objectives -->
+
+<div class="card shadow p-4 mt-4">
+
+
+<h3>Project Objectives</h3>
+
+<ul>
+
+    <li>
+        Promote safe drinking water practices.
+    </li>
+
+    <li>
+        Improve sanitation awareness.
+    </li>
+
+    <li>
+        Encourage rainwater harvesting.
+    </li>
+
+    <li>
+        Reduce water wastage.
+    </li>
+
+    <li>
+        Promote waste segregation.
+    </li>
+
+    <li>
+        Support SDG 6 goals.
+    </li>
+
+</ul>
+
+
+</div>
+
+<!-- Features -->
+
+<div class="card shadow p-4 mt-4">
+
+
+<h3>Platform Features</h3>
+
+<div class="row">
+
+    <div class="col-md-4">
+
+        <h5>Water Hygiene Assessment</h5>
+
+        <p>
+            Evaluate household water safety practices.
+        </p>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <h5>Rainwater Calculator</h5>
+
+        <p>
+            Estimate potential rainwater collection.
+        </p>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <h5>Water Quality Checker</h5>
+
+        <p>
+            Assess drinking water conditions.
+        </p>
+
+    </div>
+
+</div>
+
+
+</div>
+
+<!-- SDG 6 Section -->
+
+<div class="card shadow p-4 mt-4">
+
+
+<h3>About SDG 6</h3>
+
+<p>
+
+    Sustainable Development Goal 6 aims to ensure
+    availability and sustainable management of
+    water and sanitation for all.
+
+</p>
+
+<p>
+
+    Access to clean water and sanitation is
+    fundamental to human health, environmental
+    sustainability and economic development.
+
+</p>
+
+
+</div>
+
+<!-- Community Impact -->
+
+<div class="card shadow p-4 mt-4">
+
+
+<h3>Expected Community Impact</h3>
+
+<ul>
+
+    <li>Improved household hygiene practices.</li>
+
+    <li>Reduction in waterborne diseases.</li>
+
+    <li>Better sanitation awareness.</li>
+
+    <li>Increased rainwater harvesting adoption.</li>
+
+    <li>Improved waste management practices.</li>
+
+    <li>Enhanced environmental sustainability.</li>
+
+</ul>
+
+</div>
+
+<script>
+
+const tips = [
+
+"Clean water tanks every 3 months.",
+
+"Store drinking water in covered containers.",
+
+"Use steel or copper containers for storage.",
+
+"Remove stagnant water around homes.",
+
+"Practice proper handwashing regularly.",
+
+"Segregate biodegradable and non-biodegradable waste.",
+
+"Repair leaking taps immediately."
+
+];
+
+document.getElementById("dailyTip")
+.innerHTML =
+tips[Math.floor(Math.random()*tips.length)];
+
+</script>
+
+{% endblock %}

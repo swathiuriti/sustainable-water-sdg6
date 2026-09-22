@@ -1,0 +1,337 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="mb-4">
+Water Quality Assessment
+</h2>
+
+<div class="card shadow p-4">
+
+<form id="qualityForm">
+
+<label>
+Water Colour
+</label>
+
+<select
+id="colour"
+class="form-control">
+
+<option>Clear</option>
+<option>Slightly Cloudy</option>
+<option>Brown</option>
+
+</select>
+
+<br>
+
+<label>
+Water Smell
+</label>
+
+<select
+id="smell"
+class="form-control">
+
+<option>No Smell</option>
+<option>Mild Odour</option>
+<option>Strong Odour</option>
+
+</select>
+
+<br>
+
+<label>
+Visible Particles
+</label>
+
+<select
+id="particles"
+class="form-control">
+
+<option>No</option>
+<option>Yes</option>
+
+</select>
+
+<br>
+
+<label>
+Storage Container
+</label>
+
+<select
+id="storage"
+class="form-control">
+
+<option>Steel</option>
+<option>Copper</option>
+<option>Plastic</option>
+
+</select>
+
+<br>
+
+<label>
+Is Water Covered?
+</label>
+
+<select
+id="covered"
+class="form-control">
+
+<option>Yes</option>
+<option>No</option>
+
+</select>
+
+<br>
+
+<label>
+Water Filter Used?
+</label>
+
+<select
+id="filter"
+class="form-control">
+
+<option>Yes</option>
+<option>No</option>
+
+</select>
+
+<br>
+
+<label>
+Water Boiled When Needed?
+</label>
+
+<select
+id="boil"
+class="form-control">
+
+<option>Yes</option>
+<option>No</option>
+
+</select>
+
+<br>
+
+<button
+type="button"
+class="btn btn-primary"
+onclick="checkQuality()">
+
+Check Water Quality
+
+</button>
+
+</form>
+
+</div>
+
+<div
+id="resultCard"
+class="card shadow p-4 mt-4"
+style="display:none;">
+
+<h3 id="scoreText"></h3>
+
+<h4 id="riskText"></h4>
+
+<div id="recommendations"></div>
+
+</div>
+
+<script>
+
+function checkQuality(){
+
+let score = 0;
+
+let recommendations = [];
+
+if(
+document.getElementById(
+"colour"
+).value === "Clear"
+){
+score += 2;
+}
+else{
+recommendations.push(
+"Clear water is generally safer. Cloudy or brown water should be filtered and examined before drinking."
+);
+}
+
+if(
+document.getElementById(
+"smell"
+).value === "No Smell"
+){
+score += 2;
+}
+else{
+recommendations.push(
+"Unusual odours may indicate contamination and should not be ignored."
+);
+}
+
+if(
+document.getElementById(
+"particles"
+).value === "No"
+){
+score += 1;
+}
+else{
+recommendations.push(
+"Visible particles suggest poor water quality and require filtration."
+);
+}
+
+let storage =
+document.getElementById(
+"storage"
+).value;
+
+if(
+storage === "Steel" ||
+storage === "Copper"
+){
+score += 1;
+}
+else{
+recommendations.push(
+"Steel or copper containers are preferred over plastic for long-term storage."
+);
+}
+
+if(
+document.getElementById(
+"covered"
+).value === "Yes"
+){
+score += 1;
+}
+else{
+recommendations.push(
+"Drinking water should always be covered to prevent contamination."
+);
+}
+
+if(
+document.getElementById(
+"filter"
+).value === "Yes"
+){
+score += 2;
+}
+else{
+recommendations.push(
+"Using a water filter improves safety and removes impurities."
+);
+}
+
+if(
+document.getElementById(
+"boil"
+).value === "Yes"
+){
+score += 1;
+}
+else{
+recommendations.push(
+"Boiling water helps destroy many harmful microorganisms."
+);
+}
+
+let risk = "";
+
+if(score >= 8){
+
+risk =
+"🟢 Low Risk";
+
+}
+else if(score >= 5){
+
+risk =
+"🟡 Moderate Risk";
+
+}
+else{
+
+risk =
+"🔴 High Risk";
+
+}
+localStorage.setItem(
+"qualityScore",
+score
+);
+document.getElementById(
+"resultCard"
+).style.display =
+"block";
+
+document.getElementById(
+"scoreText"
+).innerHTML =
+"Water Quality Score: "
++ score + "/10";
+
+document.getElementById(
+"riskText"
+).innerHTML =
+risk;
+
+let html =
+"<h5>Recommendations</h5><ul>";
+
+recommendations.forEach(
+item=>{
+
+html +=
+"<li>" +
+item +
+"</li>";
+
+});
+
+html += "</ul>";
+
+if(
+recommendations.length===0
+){
+
+html =
+"<div class='alert alert-success'>Excellent water storage and hygiene practices observed.</div>";
+
+}
+
+fetch(
+"/save_quality",
+{
+method:"POST",
+headers:{
+"Content-Type":
+"application/x-www-form-urlencoded"
+},
+body:"score="+score
+}
+);
+
+document.getElementById(
+"recommendations"
+).innerHTML =
+html;
+
+
+}
+
+</script>
+
+{% endblock %}

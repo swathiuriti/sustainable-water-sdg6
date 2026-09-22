@@ -1,0 +1,115 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Sanitation Assessment</h2>
+
+<form
+method="POST"
+action="/submit_sanitation">
+
+<div class="card p-4">
+
+<label>
+Do you wash hands before meals?
+</label>
+
+<select
+name="meals"
+class="form-control">
+
+<option>Yes</option>
+<option>No</option>
+
+</select>
+
+<br>
+
+<label>
+Do you wash hands after toilet use?
+</label>
+
+<select
+name="toilet"
+class="form-control">
+
+<option>Yes</option>
+<option>No</option>
+
+</select>
+
+<br>
+
+<label>
+Do you use soap while washing hands?
+</label>
+
+<select
+name="soap"
+class="form-control">
+
+<option>Yes</option>
+<option>No</option>
+
+</select>
+
+<br>
+
+<label>
+Do you segregate waste?
+</label>
+
+<select
+name="waste"
+class="form-control">
+
+<option>Yes</option>
+<option>No</option>
+
+</select>
+
+<br>
+
+<label>
+Do you avoid stagnant water near home?
+</label>
+
+<select
+name="stagnant"
+class="form-control">
+
+<option>Yes</option>
+<option>No</option>
+
+</select>
+
+<br>
+
+<label>
+Do you use safe sanitary disposal methods?
+</label>
+
+<select
+name="disposal"
+class="form-control">
+
+<option>Yes</option>
+<option>No</option>
+
+</select>
+
+<br>
+
+<button
+class="btn btn-success">
+
+Submit Assessment
+
+</button>
+
+</div>
+
+</form>
+
+{% endblock %}

@@ -1,0 +1,40 @@
+
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card p-4">
+
+<h2>Your Score</h2>
+
+<h1>{{ score }}/10</h1>
+
+{% if score == 10 %}
+
+<div class="alert alert-success">
+
+Excellent!
+You are following all recommended practices.
+
+</div>
+
+{% else %}
+
+<h3>Areas For Improvement</h3>
+
+<ul>
+
+{% for item in recommendation %}
+
+<li>{{ item }}</li>
+
+{% endfor %}
+
+</ul>
+
+{% endif %}
+
+</div>
+
+{% endblock %}
+```

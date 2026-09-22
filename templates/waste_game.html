@@ -1,0 +1,473 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<style>
+
+.suggestion-item{
+cursor:pointer;
+}
+
+.suggestion-item:hover{
+background:#f0f0f0;
+}
+
+#suggestions{
+max-height:250px;
+overflow-y:auto;
+}
+
+</style>
+
+<h2 class="mb-4">
+Waste Segregation Trainer
+</h2>
+
+<div class="card shadow p-4">
+
+<h4 id="itemName"></h4>
+
+<div class="mt-3">
+
+<button
+class="btn btn-success me-2"
+onclick="checkAnswer('bio')">
+
+Biodegradable
+
+</button>
+
+<button
+class="btn btn-primary me-2"
+onclick="checkAnswer('nonbio')">
+
+Non-Biodegradable
+
+</button>
+
+<button
+class="btn btn-danger"
+onclick="checkAnswer('hazard')">
+
+Hazardous
+
+</button>
+
+</div>
+
+<div class="mt-4">
+
+<h5 id="result"></h5>
+
+<p id="explanation"></p>
+
+</div>
+
+<div class="mt-3">
+
+<button
+class="btn btn-secondary"
+onclick="nextItem()">
+
+Next Item
+
+</button>
+
+</div>
+
+</div>
+
+<div class="card shadow p-4 mt-4">
+
+<h4>
+Waste Segregation Search
+</h4>
+
+<p>
+Start typing any household waste item.
+Suggestions will appear automatically.
+</p>
+
+<input
+type="text"
+id="wasteSearch"
+class="form-control"
+placeholder="Example: Battery, Banana Peel, Plastic Bottle"
+autocomplete="off">
+
+<div
+id="suggestions"
+class="list-group mt-1">
+</div>
+
+<div
+id="searchResult"
+class="mt-3">
+</div>
+
+</div>
+
+<div class="card shadow p-4 mt-4">
+
+<h4>
+Score Board
+</h4>
+
+<h3 id="score">
+0 / 0
+</h3>
+
+</div>
+
+<script>
+
+const wasteItems = [
+
+{
+item:"Banana Peel",
+type:"bio",
+info:"Banana peels decompose naturally and can be composted."
+},
+
+{
+item:"Vegetable Waste",
+type:"bio",
+info:"Kitchen vegetable waste is biodegradable."
+},
+
+{
+item:"Dry Leaves",
+type:"bio",
+info:"Leaves naturally decompose and enrich soil."
+},
+
+{
+item:"Paper",
+type:"bio",
+info:"Paper is biodegradable and recyclable."
+},
+
+{
+item:"Tea Waste",
+type:"bio",
+info:"Used tea leaves can be composted."
+},
+
+{
+item:"Egg Shells",
+type:"bio",
+info:"Egg shells can be composted."
+},
+
+{
+item:"Plastic Bottle",
+type:"nonbio",
+info:"Plastic bottles should be recycled."
+},
+
+{
+item:"Milk Packet",
+type:"nonbio",
+info:"Milk packets are plastic waste."
+},
+
+{
+item:"Food Wrapper",
+type:"nonbio",
+info:"Most wrappers are non-biodegradable plastics."
+},
+
+{
+item:"Glass Bottle",
+type:"nonbio",
+info:"Glass is recyclable but non-biodegradable."
+},
+
+{
+item:"Aluminium Can",
+type:"nonbio",
+info:"Aluminium cans should be recycled."
+},
+
+{
+item:"Battery",
+type:"hazard",
+info:"Batteries contain harmful chemicals."
+},
+
+{
+item:"Mobile Battery",
+type:"hazard",
+info:"Electronic batteries require special disposal."
+},
+
+{
+item:"Medicine Strip",
+type:"hazard",
+info:"Medical waste requires safe disposal."
+},
+
+{
+item:"Broken Bulb",
+type:"hazard",
+info:"Bulbs may contain hazardous substances."
+},
+
+{
+item:"Paint Container",
+type:"hazard",
+info:"Paint residue can pollute the environment."
+}
+
+];
+
+const wasteDatabase = {
+
+"banana peel":"Biodegradable",
+"vegetable waste":"Biodegradable",
+"fruit peel":"Biodegradable",
+"tea waste":"Biodegradable",
+"coffee grounds":"Biodegradable",
+"egg shell":"Biodegradable",
+"egg shells":"Biodegradable",
+"dry leaves":"Biodegradable",
+"flowers":"Biodegradable",
+"paper":"Biodegradable",
+"cardboard":"Biodegradable",
+"coconut shell":"Biodegradable",
+"wood":"Biodegradable",
+"cotton cloth":"Biodegradable",
+"newspaper":"Biodegradable",
+"rice waste":"Biodegradable",
+"food waste":"Biodegradable",
+
+"plastic bottle":"Non-Biodegradable",
+"milk packet":"Non-Biodegradable",
+"food wrapper":"Non-Biodegradable",
+"chips packet":"Non-Biodegradable",
+"plastic bag":"Non-Biodegradable",
+"water bottle":"Non-Biodegradable",
+"glass bottle":"Non-Biodegradable",
+"glass":"Non-Biodegradable",
+"aluminium can":"Non-Biodegradable",
+"tin can":"Non-Biodegradable",
+"thermocol":"Non-Biodegradable",
+"rubber":"Non-Biodegradable",
+"bucket":"Non-Biodegradable",
+"toothbrush":"Non-Biodegradable",
+"pen":"Non-Biodegradable",
+"plastic spoon":"Non-Biodegradable",
+
+"battery":"Hazardous",
+"mobile battery":"Hazardous",
+"medicine strip":"Hazardous",
+"expired medicine":"Hazardous",
+"paint container":"Hazardous",
+"paint":"Hazardous",
+"tube light":"Hazardous",
+"bulb":"Hazardous",
+"broken bulb":"Hazardous",
+"sanitary pad":"Hazardous",
+"medical waste":"Hazardous",
+"insecticide container":"Hazardous",
+"pesticide bottle":"Hazardous"
+
+};
+
+let score = 0;
+let attempts = 0;
+let currentItem;
+
+function loadItem(){
+
+currentItem =
+wasteItems[
+Math.floor(
+Math.random() *
+wasteItems.length
+)
+];
+
+document.getElementById(
+"itemName"
+).innerHTML =
+currentItem.item;
+
+document.getElementById(
+"result"
+).innerHTML = "";
+
+document.getElementById(
+"explanation"
+).innerHTML = "";
+
+}
+
+function checkAnswer(choice){
+
+attempts++;
+
+if(choice === currentItem.type){
+
+score++;
+
+fetch(
+"/save_waste",
+{
+method:"POST",
+headers:{
+"Content-Type":
+"application/x-www-form-urlencoded"
+},
+body:"score="+score
+}
+);
+
+document.getElementById(
+"result"
+).innerHTML =
+"✅ Correct";
+
+}
+else{
+
+document.getElementById(
+"result"
+).innerHTML =
+"❌ Incorrect";
+
+}
+
+document.getElementById(
+"explanation"
+).innerHTML =
+currentItem.info;
+
+document.getElementById(
+"score"
+).innerHTML =
+score + " / " + attempts;
+
+}
+
+function nextItem(){
+
+loadItem();
+
+}
+
+function showCategory(item){
+
+let category =
+wasteDatabase[item];
+
+let color = "success";
+
+if(category==="Non-Biodegradable")
+color="primary";
+
+if(category==="Hazardous")
+color="danger";
+
+document.getElementById(
+"searchResult"
+).innerHTML =
+
+`
+<div class="alert alert-${color}">
+
+<h5>${item}</h5>
+
+Category:
+<b>${category}</b>
+
+</div>
+`;
+
+}
+
+function showSuggestions(){
+
+let input =
+
+document.getElementById(
+"wasteSearch"
+).value
+.toLowerCase()
+.trim();
+
+let suggestionsDiv =
+
+document.getElementById(
+"suggestions"
+);
+
+suggestionsDiv.innerHTML = "";
+
+if(input.length < 1){
+
+document.getElementById(
+"searchResult"
+).innerHTML = "";
+
+return;
+
+}
+
+let matches =
+
+Object.keys(
+wasteDatabase
+).filter(item =>
+
+item.includes(input) ||
+item.startsWith(input)
+
+);
+
+matches.slice(0,8).forEach(item=>{
+
+let div =
+document.createElement("div");
+
+div.className =
+"list-group-item suggestion-item";
+
+div.innerHTML = item;
+
+div.onclick = function(){
+
+document.getElementById(
+"wasteSearch"
+).value = item;
+
+showCategory(item);
+
+suggestionsDiv.innerHTML = "";
+
+};
+
+suggestionsDiv.appendChild(div);
+
+});
+
+}
+
+document.addEventListener(
+"DOMContentLoaded",
+function(){
+
+loadItem();
+
+document.getElementById(
+"wasteSearch"
+).addEventListener(
+"input",
+showSuggestions
+);
+
+});
+
+</script>
+
+{% endblock %}
