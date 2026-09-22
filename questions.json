@@ -1,0 +1,20 @@
+[
+ {
+   "question":"...",
+   "options":["A","B","C","D"],
+   "answer":"..."
+ }
+]
+
+[
+  {
+    "question":"How often should water tanks be cleaned?",
+    "options":[
+      "Every week",
+      "Every 3-6 months",
+      "Every 5 years",
+      "Never"
+    ],
+    "answer":"Every 3-6 months"
+  }
+]
